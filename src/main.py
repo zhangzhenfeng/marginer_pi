@@ -1,6 +1,7 @@
 #!/usr/bin/python
 #coding=utf-8
 import os,psycopg2,time,uuid,traceback
+import MySQLdb
 from computer_info import getCPUtemperature,getRAMinfo,getCPUuse,getDiskSpace,get_gpu_temp
 
 def get_uuid():
@@ -48,9 +49,11 @@ try:
     #硬盘信息[总量，使用,使用率]
     disk_info = [float(DISK_total[:-1]),float(DISK_used[:-1]),float(DISK_perc[:-1])]
     now = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time()))
-    db = psycopg2.connect(database='postgres', user='postgres', password='123456', host='127.0.0.1', port='5432')
+#   db = psycopg2.connect(database='postgres', user='postgres', password='123456', host='127.0.0.1', port='5432')
+
+    db = MySQLdb.connect("localhost","root","margin","marginer" )
     cursor = db.cursor()
-    sql = """insert into info (id, temperature, humidity, cpu_temperature, gpu_temperature, cpu_rate, ram, disk, time)
+    sql = """insert into marginer_info (id, temperature, humidity, cpu_temperature, gpu_temperature, cpu_rate, ram, disk, time)
              VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')""" % (get_uuid(),house_temp,house_rh,CPU_temp,GPU_temp,CPU_usage,ram_info,disk_info,now)
     log = open("log.txt","a+")
     log.write(sql)
