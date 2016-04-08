@@ -22,7 +22,7 @@ try:
     print house_info
     house_rh = 0
     house_temp = 0
-    if house_info != '(null)':
+    if house_info[0] != '(null)':
         # 室内湿度
         house_rh = house_info[0].split(',')[0]
         # 温度
