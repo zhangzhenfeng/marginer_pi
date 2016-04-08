@@ -20,10 +20,13 @@ try:
     # 获取室内湿度，温度
     house_info = os.popen('/home/ftp/house').readlines()
     print house_info
-    # 室内湿度
-    house_rh = house_info[0].split(',')[0]
-    # 温度
-    house_temp = house_info[0].split(',')[1]
+    house_rh = 0
+    house_temp = 0
+    if house_info != '(null)':
+        # 室内湿度
+        house_rh = house_info[0].split(',')[0]
+        # 温度
+        house_temp = house_info[0].split(',')[1]
     
     # RAM information
     # Output is in kb, here I convert it in Mb for readability
@@ -63,5 +66,5 @@ try:
     db.commit()
     cursor.close()
     db.close()
-except e:
-    traceback.format_exc()
+except:
+    print(traceback.format_exc())
